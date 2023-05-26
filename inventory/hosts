@@ -1,0 +1,8 @@
+[kubemaster]
+kubemaster ansible_host=192.168.56.2
+
+[kubenode]
+kubenode01 ansible_host=192.168.56.3
+kubenode02 ansible_host=192.168.56.4
+
+

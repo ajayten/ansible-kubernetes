@@ -1,0 +1,9 @@
+- name: Install Kubernetes Tools
+  hosts: all
+  become: true
+  roles:
+    - role: install-kubernetes-tools
+
+  handlers:
+    - include_tasks: handlers/main.yml
+

@@ -1,0 +1,62 @@
+- name: Install Kubernetes tools
+  apt:
+    update_cache: yes
+    name:
+      - apt-transport-https
+      - ca-certificates
+      - curl
+  become: yes
+
+- name: Download Kubernetes apt repository keyring
+  get_url:
+    url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+    dest: /etc/apt/keyrings/kubernetes-archive-keyring.gpg
+  become: true
+
+- name: Add Kubernetes apt repository
+  apt_repository:
+    filename: kubernetes
+    repo: deb [signed-by=/etc/apt/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main
+    state: present
+  become: yes
+
+- name: Install kubelet, kubeadm, kubectl
+  become: true
+  apt:
+    name:
+      - kubelet
+      - kubeadm
+      - kubectl
+    state: latest
+    update_cache: yes
+
+- name: Set kubelet, kubeadm and kubectl on hold
+  command: apt-mark hold {{ item }}
+  with_items:
+    - kubelet
+    - kubeadm
+    - kubectl
+  become: true
+
+- name: install bash-completion
+  apt:
+    name:
+      - bash-completion
+      - binutils
+    state: latest
+  become: true
+
+- name: Configure bashrc
+  lineinfile:
+    path: "/home/{{ ansible_user }}/.bashrc"
+    owner: "{{ ansible_user }}" 
+    line: "{{ item }}"
+  with_items:
+    - 'source <(kubectl completion bash)'
+    - 'alias k=kubectl'
+    - 'alias c=clear'
+    - 'complete -F __start_kubectl k'
+  notify: Reload bashrc
+ 
+  
+

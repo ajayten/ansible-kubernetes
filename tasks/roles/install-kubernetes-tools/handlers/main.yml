@@ -1,0 +1,8 @@
+---
+- name: Reload bashrc
+  become: true
+  shell: source /home/vagrant/.bashrc
+  args:  
+    executable: /bin/bash
+  listen: "Reload bashrc"
+
