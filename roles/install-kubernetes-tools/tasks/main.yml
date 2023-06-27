@@ -5,20 +5,20 @@
       - apt-transport-https
       - ca-certificates
       - curl
-  become: yes
+#  become: yes
 
 - name: Download Kubernetes apt repository keyring
   get_url:
     url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
     dest: /etc/apt/keyrings/kubernetes-archive-keyring.gpg
-  become: true
+#  become: true
 
 - name: Add Kubernetes apt repository
   apt_repository:
     filename: kubernetes
     repo: deb [signed-by=/etc/apt/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main
     state: present
-  become: yes
+#  become: yes
 
 - name: Install kubelet, kubeadm, kubectl
   become: true
@@ -36,7 +36,7 @@
     - kubelet
     - kubeadm
     - kubectl
-  become: true
+#  become: true
 
 - name: install bash-completion
   apt:
@@ -44,7 +44,7 @@
       - bash-completion
       - binutils
     state: latest
-  become: true
+#  become: true
 
 - name: Configure bashrc
   lineinfile:
