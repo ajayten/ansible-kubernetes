@@ -1,0 +1,6 @@
+- name: Install Kubernetes Tools
+  hosts: all
+  roles:
+    - role: install-container-runtime
+
+

@@ -11,17 +11,18 @@
   get_url:
     url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
     dest: /etc/apt/keyrings/kubernetes-archive-keyring.gpg
+    mode: '0644'
 #  become: true
 
 - name: Add Kubernetes apt repository
   apt_repository:
-    filename: kubernetes
+#    filename: kubernetes
     repo: deb [signed-by=/etc/apt/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main
     state: present
 #  become: yes
 
 - name: Install kubelet, kubeadm, kubectl
-  become: true
+#  become: true
   apt:
     name:
       - kubelet
